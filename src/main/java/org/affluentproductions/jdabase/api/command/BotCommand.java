@@ -33,6 +33,10 @@ public abstract class BotCommand extends AffluentAdapter {
         return cooldown;
     }
 
+    public boolean isAuthorOwner(String userId) {
+        return userId.equals("335051227324743682") || userId.equals("429307019229397002");
+    }
+
     public abstract void onCommand(BotCommand.CommandEvent event);
 
     public static class CommandEvent {

@@ -22,6 +22,10 @@ public class Database {
         connection = DriverManager.getConnection(url, username, password);
     }
 
+    public Connection getConnection() {
+        return connection;
+    }
+
     public void disconnect() throws SQLException {
         connection.close();
     }
@@ -38,29 +42,36 @@ public class Database {
         return stats_queries;
     }
 
-    public ResultSet query(String sql, Object... parameters) throws SQLException {
-        PreparedStatement ps = connection.prepareStatement(sql);
-        if (parameters.length > 0) {
-            int index = 0;
-            for (Object o : parameters) {
-                index++;
-                ps.setObject(index, o);
+    public ResultSet query(String sql, Object... parameters) {
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            if (parameters.length > 0) {
+                int index = 0;
+                for (Object o : parameters) {
+                    index++;
+                    ps.setObject(index, o);
+                }
             }
+            stats_queries++;
+            return ps.executeQuery();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return null;
         }
-        stats_queries++;
-        return ps.executeQuery();
     }
 
-    public int update(String sql, Object... parameters) throws SQLException {
-        PreparedStatement ps = connection.prepareStatement(sql);
-        if (parameters.length > 0) {
-            int index = 0;
-            for (Object o : parameters) {
-                index++;
-                ps.setObject(index, o);
+    public void update(String sql, Object... parameters) {
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            if (parameters.length > 0) {
+                int index = 0;
+                for (Object o : parameters) {
+                    index++;
+                    ps.setObject(index, o);
+                }
             }
+            stats_updates++;
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
         }
-        stats_updates++;
-        return ps.executeUpdate();
     }
 }
