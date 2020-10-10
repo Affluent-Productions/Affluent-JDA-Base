@@ -7,40 +7,22 @@ import org.affluentproductions.jdabase.JDABase;
 import org.affluentproductions.jdabase.api.AffluentAdapter;
 import org.affluentproductions.jdabase.enums.Load;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.function.Consumer;
 
-public abstract class AffluentCommand extends AffluentAdapter {
+public abstract class BotCommand extends AffluentAdapter {
 
-    private final String commandName;
-    private final List<String> commandAliases = new ArrayList<>();
-    private double cooldown = 0.75;
-    private Load load = Load.PRELOAD;
+    protected String name = "";
+    protected String[] aliases = new String[]{};
+    protected double cooldown = 0.75;
+    protected Load load = Load.PRELOAD;
 
-    public AffluentCommand(String commandName) {
-        this.commandName = commandName;
+    public String getName() {
+        return name;
     }
 
-    protected void addAlias(String... alias) {
-        commandAliases.addAll(Arrays.asList(alias));
-    }
-
-    protected void setLoad(Load load) {
-        this.load = load;
-    }
-
-    protected void setCooldown(double seconds) {
-        this.cooldown = seconds;
-    }
-
-    public String getCommandName() {
-        return commandName;
-    }
-
-    public List<String> getCommandAliases() {
-        return commandAliases;
+    public String[] getAliases() {
+        return aliases;
     }
 
     public Load getLoad() {
@@ -51,18 +33,18 @@ public abstract class AffluentCommand extends AffluentAdapter {
         return cooldown;
     }
 
-    public abstract void onCommand(AffluentCommand.CommandEvent event);
+    public abstract void onCommand(BotCommand.CommandEvent event);
 
     public static class CommandEvent {
 
         private final JDABase jdaBase;
         private final User author;
-        private final AffluentCommand command;
+        private final BotCommand command;
         private final ChannelType channelType;
         private final MessageChannel channel;
         private final MessageReceivedEvent messageReceivedEvent;
 
-        public CommandEvent(JDABase jdaBase, AffluentCommand command, User author,
+        public CommandEvent(JDABase jdaBase, BotCommand command, User author,
                             MessageReceivedEvent messageReceivedEvent) {
             this.jdaBase = jdaBase;
             this.author = author;
@@ -123,7 +105,7 @@ public abstract class AffluentCommand extends AffluentAdapter {
             return Arrays.copyOfRange(splitted, 1, splitted.length);
         }
 
-        public AffluentCommand getCommand() {
+        public BotCommand getCommand() {
             return command;
         }
 

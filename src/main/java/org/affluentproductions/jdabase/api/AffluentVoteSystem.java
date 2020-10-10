@@ -60,6 +60,14 @@ public class AffluentVoteSystem extends AffluentAdapter {
         jdaBase.getEventManager().fireEvent(new AffluentVoteEvent(jdaBase, userId, weekend));
     }
 
+    /**
+     * @param userId The ID of vote-user
+     * @return Time in milliseconds when the vote expires or {@code -1} when user did not voted
+     */
+    public long getUntilVote(String userId) {
+        return votes.getOrDefault(userId, -1L);
+    }
+
     public boolean hasVoted(String userId) {
         boolean voted = votes.containsKey(userId);
         if (voted) voted = votes.get(userId) >= System.currentTimeMillis();

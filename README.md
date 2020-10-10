@@ -1,6 +1,7 @@
-# Affluent-JDA-Base
+# Affluent-JDA-Mod
 
-This is a pre-built base for a JDA discord bot.
+This is a fork of the pre-built base for a JDA discord bot.
+It contains modifications to work better with Affluent Productions bots.
 
 ## Getting Started
 
@@ -10,8 +11,8 @@ This project is in a beta and waiting for contributions and improvements.
 
 * **Affluent Avo** - *Main Developer* - [AffluentAvo](https://github.com/AffluentAvo)
 
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
+See also the list of [contributors](https://github.com/AffluentAvo/Affluent-JDA-Base/contributors) who participated in this project.
 
 ## License
 
-This project is licensed under the GNU License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the GNU License - see the [LICENSE](LICENSE) file for details

@@ -110,6 +110,13 @@ public class JDABase extends AffluentAdapter implements JDABaseImpl {
     }
 
     /**
+     * Set a custom JDA Base Command Listener
+     */
+    public void setCommandListener(CommandListener commandListener) {
+        this.commandListener = commandListener;
+    }
+
+    /**
      * Set the JDA Base Database
      */
     public void setDatabase(Database database) {

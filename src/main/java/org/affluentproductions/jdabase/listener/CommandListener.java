@@ -5,7 +5,7 @@ import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.affluentproductions.jdabase.JDABase;
-import org.affluentproductions.jdabase.api.command.AffluentCommand;
+import org.affluentproductions.jdabase.api.command.BotCommand;
 import org.affluentproductions.jdabase.manager.CommandManager;
 import org.jetbrains.annotations.NotNull;
 
@@ -65,8 +65,8 @@ public class CommandListener extends ListenerAdapter {
                 if (commandManager.isCommand(commandName)) {
                     final String userId = author.getId();
                     jdaBase.getCommandManager().getExecutorService().submit(() -> {
-                        AffluentCommand affluentCommand = commandManager.getCommand(commandName);
-                        final String cooldownName = "command_cooldown_" + affluentCommand.getCommandName()
+                        BotCommand affluentCommand = commandManager.getCommand(commandName);
+                        final String cooldownName = "command_cooldown_" + affluentCommand.getName()
                                                                                          .toLowerCase();
                         boolean isOnCooldown = jdaBase.getCooldownUtil().hasUserCooldown(userId, cooldownName);
                         if (isOnCooldown) {
@@ -77,7 +77,7 @@ public class CommandListener extends ListenerAdapter {
                         long cooldownEnd = System.currentTimeMillis() + new Double(cooldown * 1000).longValue();
                         jdaBase.getCooldownUtil().setUserCooldown(userId, cooldownName, cooldownEnd, false);
                         affluentCommand.onCommand(
-                                new AffluentCommand.CommandEvent(jdaBase, affluentCommand, event.getAuthor(), event));
+                                new BotCommand.CommandEvent(jdaBase, affluentCommand, event.getAuthor(), event));
                     });
                 }
             }
