@@ -43,7 +43,8 @@ public class Database {
     }
 
     public ResultSet query(String sql, Object... parameters) {
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
             if (parameters.length > 0) {
                 int index = 0;
                 for (Object o : parameters) {

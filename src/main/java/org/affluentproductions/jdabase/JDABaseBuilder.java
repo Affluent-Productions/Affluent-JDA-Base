@@ -13,7 +13,7 @@ public class JDABaseBuilder implements JDABaseBuilderImpl {
 
     private BuilderStatus builderStatus;
     private JDABaseConfig config;
-    private final DefaultShardManagerBuilder builder;
+    private DefaultShardManagerBuilder builder;
 
     /**
      * Initiate a JDABaseBuilder
@@ -50,6 +50,17 @@ public class JDABaseBuilder implements JDABaseBuilderImpl {
         builderStatus = BuilderStatus.PRELOADED;
     }
 
+    /**
+     * Set a configured {@code DefaultShardManagerBuilder}
+     *
+     * @param defaultShardManagerBuilder DefaultShardManagerBuilder object
+     * @throws JDABBuilderException if the JDA base is already loaded.
+     */
+    public void setShardManagerBuilder(DefaultShardManagerBuilder defaultShardManagerBuilder) throws JDABBuilderException {
+        if (builderStatus == BuilderStatus.LOADED) throw new JDABBuilderException("JDA base is already loaded.");
+        this.builder = defaultShardManagerBuilder;
+    }
+
     public DefaultShardManagerBuilder getShardManagerBuilder() throws JDABBuilderException {
         if (builderStatus == BuilderStatus.INITIATED) throw new JDABBuilderException("JDA base is not pre-loaded yet.");
         return builder;
@@ -72,7 +83,7 @@ public class JDABaseBuilder implements JDABaseBuilderImpl {
      *
      * @return JDA base object
      * @throws LoginException if shard manager could not login (invalid token?)
-     * @throws JDABException if any JDA Base exceptions are thrown within JDA Base construction
+     * @throws JDABException  if any JDA Base exceptions are thrown within JDA Base construction
      * @see DefaultShardManagerBuilder#build()
      */
     public JDABase build() throws LoginException, JDABException {
