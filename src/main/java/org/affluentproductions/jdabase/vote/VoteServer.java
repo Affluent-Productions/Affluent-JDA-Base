@@ -1,6 +1,7 @@
 package org.affluentproductions.jdabase.vote;
 
 import org.affluentproductions.jdabase.JDABase;
+import org.affluentproductions.jdabase.exception.JDABException;
 
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -22,8 +23,11 @@ public class VoteServer {
         }
     }
 
-    public static Thread start(JDABase jdaBase, String topgg_vote_auth, int serverPort) {
+    public static Thread start(JDABase jdaBase, String topgg_vote_auth, int serverPort) throws JDABException {
         vote_auth = topgg_vote_auth;
+        if (serverSocket != null) {
+            throw new JDABException("Prevented Vote Server start: ServerSocket already assigned");
+        }
         Thread serverThread = new Thread(() -> {
             try {
                 serverSocket = new ServerSocket(serverPort);
@@ -35,7 +39,6 @@ public class VoteServer {
         });
         serverThread.setName("Vote-Server-Thread");
         serverThread.setDaemon(true);
-        serverThread.start();
         return serverThread;
     }
 
